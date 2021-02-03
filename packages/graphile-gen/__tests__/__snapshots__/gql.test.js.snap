@@ -2914,7 +2914,7 @@ exports[`getMany(): works with nested selection 1`] = `
     createdAt
     updatedAt
     actionId
-    userActionItems(first: 3) {nodes {
+    userActionItems(first: 3, offset: 0) {nodes {
       id
       value
       status
@@ -2956,7 +2956,7 @@ exports[`getManyPaginatedNodes(): works with nested selection 1`] = `
     createdAt
     updatedAt
     actionId
-    userActionItems(first: 3) {nodes {
+    userActionItems(first: 3, offset: 0) {nodes {
       id
       value
       status
@@ -3002,7 +3002,7 @@ exports[`getOne(): works with nested selection 1`] = `
     createdAt
     updatedAt
     ownerId
-    actionGoals(first: 3) {nodes {
+    actionGoals(first: 3, offset: 0) {nodes {
       createdBy
       updatedBy
       createdAt
@@ -3011,7 +3011,7 @@ exports[`getOne(): works with nested selection 1`] = `
       goalId
       ownerId
     }}
-    actionResults(first: 3) {nodes {
+    actionResults(first: 3, offset: 0) {nodes {
       id
       createdBy
       updatedBy
@@ -3020,7 +3020,7 @@ exports[`getOne(): works with nested selection 1`] = `
       actionId
       ownerId
     }}
-    actionItems(first: 3) {nodes {
+    actionItems(first: 3, offset: 0) {nodes {
       id
       name
       description
@@ -3038,7 +3038,7 @@ exports[`getOne(): works with nested selection 1`] = `
       updatedAt
       actionId
     }}
-    userActions(first: 3) {nodes {
+    userActions(first: 3, offset: 0) {nodes {
       id
       actionStarted
       complete
@@ -3055,7 +3055,7 @@ exports[`getOne(): works with nested selection 1`] = `
       verifierId
       actionId
     }}
-    userActionResults(first: 3) {nodes {
+    userActionResults(first: 3, offset: 0) {nodes {
       id
       value
       createdBy
@@ -3067,7 +3067,7 @@ exports[`getOne(): works with nested selection 1`] = `
       userActionId
       actionResultId
     }}
-    userActionItems(first: 3) {nodes {
+    userActionItems(first: 3, offset: 0) {nodes {
       id
       value
       status
@@ -3080,7 +3080,7 @@ exports[`getOne(): works with nested selection 1`] = `
       userActionId
       actionItemId
     }}
-    userPassActions(first: 3) {nodes {
+    userPassActions(first: 3, offset: 0) {nodes {
       id
       createdBy
       updatedBy
@@ -3089,7 +3089,7 @@ exports[`getOne(): works with nested selection 1`] = `
       userId
       actionId
     }}
-    userSavedActions(first: 3) {nodes {
+    userSavedActions(first: 3, offset: 0) {nodes {
       id
       createdBy
       updatedBy
@@ -3098,7 +3098,7 @@ exports[`getOne(): works with nested selection 1`] = `
       userId
       actionId
     }}
-    userViewedActions(first: 3) {nodes {
+    userViewedActions(first: 3, offset: 0) {nodes {
       id
       createdBy
       updatedBy
@@ -3107,7 +3107,7 @@ exports[`getOne(): works with nested selection 1`] = `
       userId
       actionId
     }}
-    userActionReactions(first: 3) {nodes {
+    userActionReactions(first: 3, offset: 0) {nodes {
       id
       createdBy
       updatedBy
@@ -3119,7 +3119,7 @@ exports[`getOne(): works with nested selection 1`] = `
       actionId
     }}
     searchRank
-    goals(first: 3) {nodes {
+    goals(first: 3, offset: 0) {nodes {
       id
       name
       slug

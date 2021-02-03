@@ -57,13 +57,13 @@ const createGqlMutation = ({
   });
 };
 
-export const getMany = ({ operationName, query, fields }) => {
+export const getMany = ({ operationName, query, fields, paginated }) => {
   const queryName = inflection.camelize(
     ['get', inflection.underscore(operationName), 'query', 'all'].join('_'),
     true
   );
 
-  const selections = getSelections(query, fields);
+  const selections = getSelections(query, fields, paginated);
 
   const opSel = [
     t.field({
@@ -95,7 +95,12 @@ export const getMany = ({ operationName, query, fields }) => {
   return { name: queryName, ast };
 };
 
-export const getManyPaginatedEdges = ({ operationName, query, fields }) => {
+export const getManyPaginatedEdges = ({
+  operationName,
+  query,
+  fields,
+  paginated
+}) => {
   const queryName = inflection.camelize(
     ['get', inflection.underscore(operationName), 'paginated'].join('_'),
     true
@@ -106,7 +111,7 @@ export const getManyPaginatedEdges = ({ operationName, query, fields }) => {
   const Condition = `${Singular}Condition`;
   const Filter = `${Singular}Filter`;
   const OrderBy = `${Plural}OrderBy`;
-  const selections = getSelections(query, fields);
+  const selections = getSelections(query, fields, paginated);
 
   const ast = t.document({
     definitions: [
@@ -273,7 +278,12 @@ export const getManyPaginatedEdges = ({ operationName, query, fields }) => {
   return { name: queryName, ast };
 };
 
-export const getManyPaginatedNodes = ({ operationName, query, fields }) => {
+export const getManyPaginatedNodes = ({
+  operationName,
+  query,
+  fields,
+  paginated
+}) => {
   const queryName = inflection.camelize(
     ['get', inflection.underscore(operationName), 'query'].join('_'),
     true
@@ -284,7 +294,7 @@ export const getManyPaginatedNodes = ({ operationName, query, fields }) => {
   const Condition = `${Singular}Condition`;
   const Filter = `${Singular}Filter`;
   const OrderBy = `${Plural}OrderBy`;
-  const selections = getSelections(query, fields);
+  const selections = getSelections(query, fields, paginated);
 
   const ast = t.document({
     definitions: [
@@ -521,7 +531,7 @@ export const getFragment = ({ operationName, query }) => {
   return { name: queryName, ast };
 };
 
-export const getOne = ({ operationName, query, fields }) => {
+export const getOne = ({ operationName, query, fields, paginated }) => {
   const queryName = inflection.camelize(
     ['get', inflection.underscore(operationName), 'query'].join('_'),
     true
@@ -561,7 +571,7 @@ export const getOne = ({ operationName, query, fields }) => {
       });
     });
 
-  const selections = getSelections(query, fields);
+  const selections = getSelections(query, fields, paginated);
   const opSel = [
     t.field({
       name: operationName,
@@ -962,19 +972,31 @@ export const generateGranular = (gql, model, fields) => {
   }, {});
 };
 
-export function getSelections(query, fields = []) {
+export function getSelections(query, fields = [], paginated = {}) {
   const useAll = fields.length === 0;
 
   return query.selection
     .map((field) => {
       if (!useAll && !fields.includes(field)) return null;
       if (typeof field === 'object' && field !== null) {
+        const pageObj = paginated[field] || {};
+        if (!pageObj.hasOwnProperty('first')) pageObj.first = 3;
+        if (!pageObj.hasOwnProperty('offset')) pageObj.offset = 0;
+
         return t.field({
           name: field.name,
           args: [
             t.argument({
               name: 'first',
-              value: t.intValue({ value: 3 })
+              value: t.intValue({
+                value: pageObj.first
+              })
+            }),
+            t.argument({
+              name: 'offset',
+              value: t.intValue({
+                value: pageObj.offset
+              })
             })
           ],
           selectionSet: t.objectValue({
